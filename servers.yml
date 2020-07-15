@@ -155,15 +155,13 @@ Resources:
   WebAppTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      # Property of Auto-Scalling Group 
-      # Port 8080 instances of autoscaling-group
-      # Checks HTTP response on path "/" if everything is fine LB is
-      # going to start passing user request into the machine if the rsponse 
-      # is unhealthy the respnd is eliminated by auto-scalling and respond a new one
-      # If LB retrieves 5 yimes <nd dont get code 200 its unhealthy
-      # That happens in a interval of 1o seconds
-      # Timeout 8 seconds, we send request and we dont get yes or no, 8 seconds will be consider unhealthy
-      # Halthy if you get 2 valid responses separate by 10 seconds it will be consider healthy
+      # Property of Auto-Scaling Group 
+      # make health checks on port 80 of the various instances in the autoscaling-group
+      # Checks HTTP response on path "/" to see if everything is fine LB.
+      # Pass user request into the machine if the response is unhealthy. 
+      # If the LB makes 5 tries and it doesn't get a 200 status code, it is unhealthy
+      # That happens in an interval of 10 seconds
+      # An instance is healthy if you get 2 valid responses separated by 10 seconds
       HealthCheckIntervalSeconds: 10
       HealthCheckPath: /
       HealthCheckProtocol: HTTP
